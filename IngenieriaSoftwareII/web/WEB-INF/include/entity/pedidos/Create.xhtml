@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PedidosCreateDlg" widgetVar="PedidosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreatePedidosTitle}" closeOnEscape="true">
+
+            <h:form id="PedidosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{pedidosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel rendered="false" value="#{myBundle.CreatePedidosLabel_idPedido}" for="idPedido" />
+                        <p:inputText rendered="false" id="idPedido" value="#{pedidosController.selected.idPedido}" title="#{myBundle.CreatePedidosTitle_idPedido}" required="true" requiredMessage="#{myBundle.CreatePedidosRequiredMessage_idPedido}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePedidosLabel_fechaPedido}" for="fechaPedido" />
+                        <p:calendar id="fechaPedido" pattern="MM/dd/yyyy" value="#{pedidosController.selected.fechaPedido}" title="#{myBundle.CreatePedidosTitle_fechaPedido}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePedidosLabel_fechaEntrega}" for="fechaEntrega" />
+                        <p:calendar id="fechaEntrega" pattern="MM/dd/yyyy" value="#{pedidosController.selected.fechaEntrega}" title="#{myBundle.CreatePedidosTitle_fechaEntrega}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePedidosLabel_idVendedor}" for="idVendedor" />
+                        <p:selectOneMenu id="idVendedor" value="#{pedidosController.selected.idVendedor}"  converter="vendedoresConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vendedoresController.items}"
+                                           var="idVendedorItem"
+                                           itemValue="#{idVendedorItem}"
+                                           itemLabel="#{idVendedorItem.cedula.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreatePedidosLabel_idCliente}" for="idCliente" />
+                        <p:selectOneMenu id="idCliente" value="#{pedidosController.selected.idCliente}"  converter="clientesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clientesController.items}"
+                                           var="idClienteItem"
+                                           itemValue="#{idClienteItem}"
+                                           itemLabel="#{idClienteItem.idCliente.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pedidosController.saveNew}" value="#{myBundle.Save}" update="display,:PedidosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PedidosCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('PedidosCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

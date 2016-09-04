@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComprasViewDlg" widgetVar="ComprasViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewComprasTitle}" closeOnEscape="true">
+
+            <h:form id="ComprasViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{comprasController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewComprasLabel_idCompra}"/>
+                        <h:outputText value="#{comprasController.selected.idCompra}" title="#{myBundle.ViewComprasTitle_idCompra}"/>
+
+                        <h:outputText value="#{myBundle.ViewComprasLabel_fecha}"/>
+                        <h:outputText value="#{comprasController.selected.fecha}" title="#{myBundle.ViewComprasTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewComprasLabel_montoTotal}"/>
+                        <h:outputText value="#{comprasController.selected.montoTotal}" title="#{myBundle.ViewComprasTitle_montoTotal}"/>
+
+                        <h:outputText value="#{myBundle.ViewComprasLabel_idProveedor}"/>
+                        <h:outputText value="#{comprasController.selected.idProveedor.idCliente}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ComprasViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProveedoresCreateDlg" widgetVar="ProveedoresCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateProveedoresTitle}" closeOnEscape="true">
+
+            <h:form id="ProveedoresCreateForm">
+
+                <h:panelGroup id="display" rendered="#{proveedoresController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel rendered="false" value="#{myBundle.CreateProveedoresLabel_idProveedor}" for="idProveedor" />
+                        <p:inputText rendered="false" id="idProveedor" value="#{proveedoresController.selected.idProveedor}" title="#{myBundle.CreateProveedoresTitle_idProveedor}" required="true" requiredMessage="#{myBundle.CreateProveedoresRequiredMessage_idProveedor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{proveedoresController.selected.nombre}" title="#{myBundle.CreateProveedoresTitle_nombre}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{proveedoresController.selected.direccion}" title="#{myBundle.CreateProveedoresTitle_direccion}" size="200" maxlength="200"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_ruc}" for="ruc" />
+                        <p:inputText id="ruc" value="#{proveedoresController.selected.ruc}" title="#{myBundle.CreateProveedoresTitle_ruc}" size="12" maxlength="12"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{proveedoresController.selected.telefono}" title="#{myBundle.CreateProveedoresTitle_telefono}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{proveedoresController.selected.email}" title="#{myBundle.CreateProveedoresTitle_email}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_idLocalidad}" for="idLocalidad" />
+                        <p:selectOneMenu id="idLocalidad" value="#{proveedoresController.selected.idLocalidad}"  converter="localidadConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{localidadController.items}"
+                                           var="idLocalidadItem"
+                                           itemValue="#{idLocalidadItem}"
+                                           itemLabel="#{idLocalidadItem.idLocalidad.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{proveedoresController.saveNew}" value="#{myBundle.Save}" update="display,:ProveedoresListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProveedoresCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ProveedoresCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

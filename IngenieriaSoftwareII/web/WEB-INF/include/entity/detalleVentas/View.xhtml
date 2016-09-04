@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleVentasViewDlg" widgetVar="DetalleVentasViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewDetalleVentasTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleVentasViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detalleVentasController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentasLabel_detalleVentasPK_idProducto}"/>
+                        <h:outputText value="#{detalleVentasController.selected.detalleVentasPK.idProducto}" title="#{myBundle.ViewDetalleVentasTitle_detalleVentasPK_idProducto}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentasLabel_detalleVentasPK_idVenta}"/>
+                        <h:outputText value="#{detalleVentasController.selected.detalleVentasPK.idVenta}" title="#{myBundle.ViewDetalleVentasTitle_detalleVentasPK_idVenta}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentasLabel_cantidad}"/>
+                        <h:outputText value="#{detalleVentasController.selected.cantidad}" title="#{myBundle.ViewDetalleVentasTitle_cantidad}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentasLabel_precio}"/>
+                        <h:outputText value="#{detalleVentasController.selected.precio}" title="#{myBundle.ViewDetalleVentasTitle_precio}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentasLabel_ventas}"/>
+                        <h:outputText value="#{detalleVentasController.selected.ventas.idVenta}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentasLabel_productos}"/>
+                        <h:outputText value="#{detalleVentasController.selected.productos.idProducto}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('DetalleVentasViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetallePedidosViewDlg" widgetVar="DetallePedidosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewDetallePedidosTitle}" closeOnEscape="true">
+
+            <h:form id="DetallePedidosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detallePedidosController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewDetallePedidosLabel_detallePedidosPK_idPedido}"/>
+                        <h:outputText value="#{detallePedidosController.selected.detallePedidosPK.idPedido}" title="#{myBundle.ViewDetallePedidosTitle_detallePedidosPK_idPedido}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetallePedidosLabel_detallePedidosPK_idProducto}"/>
+                        <h:outputText value="#{detallePedidosController.selected.detallePedidosPK.idProducto}" title="#{myBundle.ViewDetallePedidosTitle_detallePedidosPK_idProducto}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetallePedidosLabel_cantidad}"/>
+                        <h:outputText value="#{detallePedidosController.selected.cantidad}" title="#{myBundle.ViewDetallePedidosTitle_cantidad}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetallePedidosLabel_precio}"/>
+                        <h:outputText value="#{detallePedidosController.selected.precio}" title="#{myBundle.ViewDetallePedidosTitle_precio}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetallePedidosLabel_descuento}"/>
+                        <h:outputText value="#{detallePedidosController.selected.descuento}" title="#{myBundle.ViewDetallePedidosTitle_descuento}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetallePedidosLabel_productos}"/>
+                        <h:outputText value="#{detallePedidosController.selected.productos.idProducto}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetallePedidosLabel_pedidos}"/>
+                        <h:outputText value="#{detallePedidosController.selected.pedidos.idPedido}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('DetallePedidosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

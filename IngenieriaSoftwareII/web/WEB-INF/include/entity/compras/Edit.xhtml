@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ComprasEditDlg" widgetVar="ComprasEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditComprasTitle}" closeOnEscape="true">
+
+            <h:form id="ComprasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{comprasController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditComprasLabel_idCompra}" for="idCompra" />
+                        <h:outputText id="idCompra" value="#{comprasController.selected.idCompra}" />
+
+                        <p:outputLabel value="#{myBundle.EditComprasLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{comprasController.selected.fecha}" title="#{myBundle.EditComprasTitle_fecha}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditComprasLabel_montoTotal}" for="montoTotal" />
+                        <p:inputText id="montoTotal" value="#{comprasController.selected.montoTotal}" title="#{myBundle.EditComprasTitle_montoTotal}"/>
+
+                        <p:outputLabel value="#{myBundle.EditComprasLabel_idProveedor}" for="idProveedor" />
+                        <p:selectOneMenu id="idProveedor" value="#{comprasController.selected.idProveedor}"  converter="clientesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clientesController.items}"
+                                           var="idProveedorItem"
+                                           itemValue="#{idProveedorItem}"
+                                           itemLabel="#{idProveedorItem.idCliente.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{comprasController.save}" value="#{myBundle.Save}" update="display,:ComprasListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ComprasEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ComprasEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

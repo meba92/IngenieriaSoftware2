@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ClientesEditDlg" widgetVar="ClientesEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditClientesTitle}" closeOnEscape="true">
+
+            <h:form id="ClientesEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{clientesController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditClientesLabel_idCliente}" for="idCliente" />
+                        <h:outputText id="idCliente" value="#{clientesController.selected.idCliente}" />
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_razonSocial}" for="razonSocial" />
+                        <p:inputText id="razonSocial" value="#{clientesController.selected.razonSocial}" title="#{myBundle.EditClientesTitle_razonSocial}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{clientesController.selected.nombre}" title="#{myBundle.EditClientesTitle_nombre}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_apellido}" for="apellido" />
+                        <p:inputText id="apellido" value="#{clientesController.selected.apellido}" title="#{myBundle.EditClientesTitle_apellido}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{clientesController.selected.direccion}" title="#{myBundle.EditClientesTitle_direccion}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{clientesController.selected.telefono}" title="#{myBundle.EditClientesTitle_telefono}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_ruc}" for="ruc" />
+                        <p:inputText id="ruc" value="#{clientesController.selected.ruc}" title="#{myBundle.EditClientesTitle_ruc}" size="12" maxlength="12"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_cedula}" for="cedula" />
+                        <p:inputText id="cedula" value="#{clientesController.selected.cedula}" title="#{myBundle.EditClientesTitle_cedula}"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{clientesController.selected.email}" title="#{myBundle.EditClientesTitle_email}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{clientesController.selected.fechaNacimiento}" title="#{myBundle.EditClientesTitle_fechaNacimiento}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientesLabel_idLocalidad}" for="idLocalidad" />
+                        <p:selectOneMenu id="idLocalidad" value="#{clientesController.selected.idLocalidad}"  converter="localidadConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{localidadController.items}"
+                                           var="idLocalidadItem"
+                                           itemValue="#{idLocalidadItem}"
+                                           itemLabel="#{idLocalidadItem.idLocalidad.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clientesController.save}" value="#{myBundle.Save}" update="display,:ClientesListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ClientesEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ClientesEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

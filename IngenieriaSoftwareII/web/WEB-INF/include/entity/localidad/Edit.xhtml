@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LocalidadEditDlg" widgetVar="LocalidadEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditLocalidadTitle}" closeOnEscape="true">
+
+            <h:form id="LocalidadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{localidadController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditLocalidadLabel_idLocalidad}" for="idLocalidad" />
+                        <h:outputText id="idLocalidad" value="#{localidadController.selected.idLocalidad}" />
+
+                        <p:outputLabel value="#{myBundle.EditLocalidadLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{localidadController.selected.nombre}" title="#{myBundle.EditLocalidadTitle_nombre}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditLocalidadLabel_departamento}" for="departamento" />
+                        <p:inputText id="departamento" value="#{localidadController.selected.departamento}" title="#{myBundle.EditLocalidadTitle_departamento}" size="60" maxlength="60"/>
+
+                        <p:outputLabel value="#{myBundle.EditLocalidadLabel_latitud}" for="latitud" />
+                        <p:inputText id="latitud" value="#{localidadController.selected.latitud}" title="#{myBundle.EditLocalidadTitle_latitud}"/>
+
+                        <p:outputLabel value="#{myBundle.EditLocalidadLabel_altitud}" for="altitud" />
+                        <p:inputText id="altitud" value="#{localidadController.selected.altitud}" title="#{myBundle.EditLocalidadTitle_altitud}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{localidadController.save}" value="#{myBundle.Save}" update="display,:LocalidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LocalidadEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('LocalidadEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

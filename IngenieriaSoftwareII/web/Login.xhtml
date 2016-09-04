@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gestor de Ventas</title>
+    </h:head>
+    <h:body>
+        <div align="center">
+            <h:panelGroup id="globalContainerPanelGroup" layout="block" 
+                          style="width: 420px; margin-left: auto; 
+                          margin-right:auto; margin-top: 15%">
+                <h:form id="loginForm">
+                    <p:panel header="Iniciar Sesion">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel for="usuario" value="Usuario:" />
+                            <p:inputText value="#{loginController.usuario}" 
+                                         id="usuario" required="true" label="usuario" />
+
+                            <h:outputLabel for="contrasena" value="Contraseña:" />
+                            <p:password value="#{loginController.contrasena}" 
+                                        id="contrasena" required="true" label="contrasena" />
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Ingresar" action="#{loginController.validateUsuarioContrasena}" />
+                            </f:facet>  
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </h:panelGroup>
+        </div>
+    </h:body>
+</html>
+

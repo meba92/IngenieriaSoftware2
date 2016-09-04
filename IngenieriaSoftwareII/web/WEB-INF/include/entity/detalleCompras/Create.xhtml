@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleComprasCreateDlg" widgetVar="DetalleComprasCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateDetalleComprasTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleComprasCreateForm">
+
+                <h:panelGroup id="display" rendered="#{detalleComprasController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleComprasLabel_detalleComprasPK_idCompra}" for="detalleComprasPK_idCompra" />
+                        <p:inputText id="detalleComprasPK_idCompra" value="#{detalleComprasController.selected.detalleComprasPK.idCompra}" title="#{myBundle.CreateDetalleComprasTitle_detalleComprasPK_idCompra}" required="true" requiredMessage="#{myBundle.CreateDetalleComprasRequiredMessage_detalleComprasPK_idCompra}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleComprasLabel_detalleComprasPK_idProducto}" for="detalleComprasPK_idProducto" />
+                        <p:inputText id="detalleComprasPK_idProducto" value="#{detalleComprasController.selected.detalleComprasPK.idProducto}" title="#{myBundle.CreateDetalleComprasTitle_detalleComprasPK_idProducto}" required="true" requiredMessage="#{myBundle.CreateDetalleComprasRequiredMessage_detalleComprasPK_idProducto}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleComprasLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{detalleComprasController.selected.cantidad}" title="#{myBundle.CreateDetalleComprasTitle_cantidad}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleComprasLabel_precioCompra}" for="precioCompra" />
+                        <p:inputText id="precioCompra" value="#{detalleComprasController.selected.precioCompra}" title="#{myBundle.CreateDetalleComprasTitle_precioCompra}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleComprasLabel_productos}" for="productos" />
+                        <p:selectOneMenu id="productos" value="#{detalleComprasController.selected.productos}" required="true" requiredMessage="#{myBundle.CreateDetalleComprasRequiredMessage_productos}" converter="productosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productosController.items}"
+                                           var="productosItem"
+                                           itemValue="#{productosItem}"
+                                           itemLabel="#{productosItem.idProducto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleComprasLabel_compras}" for="compras" />
+                        <p:selectOneMenu id="compras" value="#{detalleComprasController.selected.compras}" required="true" requiredMessage="#{myBundle.CreateDetalleComprasRequiredMessage_compras}" converter="comprasConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{comprasController.items}"
+                                           var="comprasItem"
+                                           itemValue="#{comprasItem}"
+                                           itemLabel="#{comprasItem.idCompra.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleComprasController.saveNew}" value="#{myBundle.Save}" update="display,:DetalleComprasListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleComprasCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('DetalleComprasCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

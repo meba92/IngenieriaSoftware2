@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LocalidadViewDlg" widgetVar="LocalidadViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewLocalidadTitle}" closeOnEscape="true">
+
+            <h:form id="LocalidadViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{localidadController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewLocalidadLabel_idLocalidad}"/>
+                        <h:outputText value="#{localidadController.selected.idLocalidad}" title="#{myBundle.ViewLocalidadTitle_idLocalidad}"/>
+
+                        <h:outputText value="#{myBundle.ViewLocalidadLabel_nombre}"/>
+                        <h:outputText value="#{localidadController.selected.nombre}" title="#{myBundle.ViewLocalidadTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewLocalidadLabel_departamento}"/>
+                        <h:outputText value="#{localidadController.selected.departamento}" title="#{myBundle.ViewLocalidadTitle_departamento}"/>
+
+                        <h:outputText value="#{myBundle.ViewLocalidadLabel_latitud}"/>
+                        <h:outputText value="#{localidadController.selected.latitud}" title="#{myBundle.ViewLocalidadTitle_latitud}"/>
+
+                        <h:outputText value="#{myBundle.ViewLocalidadLabel_altitud}"/>
+                        <h:outputText value="#{localidadController.selected.altitud}" title="#{myBundle.ViewLocalidadTitle_altitud}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('LocalidadViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

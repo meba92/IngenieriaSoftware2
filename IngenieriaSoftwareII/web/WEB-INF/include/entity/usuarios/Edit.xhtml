@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuariosEditDlg" widgetVar="UsuariosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditUsuariosTitle}" closeOnEscape="true">
+
+            <h:form id="UsuariosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuariosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditUsuariosLabel_idUsuario}" for="idUsuario" />
+                        <h:outputText id="idUsuario" value="#{usuariosController.selected.idUsuario}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{usuariosController.selected.usuario}" title="#{myBundle.EditUsuariosTitle_usuario}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_contrasena}" for="contrasena" />
+                        <p:inputText id="contrasena" value="#{usuariosController.selected.contrasena}" title="#{myBundle.EditUsuariosTitle_contrasena}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_tipoUsuario}" for="tipoUsuario" />
+                        <p:inputText id="tipoUsuario" value="#{usuariosController.selected.tipoUsuario}" title="#{myBundle.EditUsuariosTitle_tipoUsuario}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_fechaCreacion}" for="fechaCreacion" />
+                        <p:calendar id="fechaCreacion" pattern="MM/dd/yyyy" value="#{usuariosController.selected.fechaCreacion}" title="#{myBundle.EditUsuariosTitle_fechaCreacion}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_idVendedor}" for="idVendedor" />
+                        <p:selectOneMenu id="idVendedor" value="#{usuariosController.selected.idVendedor}"  converter="vendedoresConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vendedoresController.items}"
+                                           var="idVendedorItem"
+                                           itemValue="#{idVendedorItem}"
+                                           itemLabel="#{idVendedorItem.cedula.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuariosController.save}" value="#{myBundle.Save}" update="display,:UsuariosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuariosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('UsuariosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

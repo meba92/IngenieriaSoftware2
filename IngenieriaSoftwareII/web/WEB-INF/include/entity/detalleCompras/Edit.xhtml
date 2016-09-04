@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetalleComprasEditDlg" widgetVar="DetalleComprasEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditDetalleComprasTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleComprasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detalleComprasController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditDetalleComprasLabel_detalleComprasPK_idCompra}" for="detalleComprasPK_idCompra" />
+                        <h:outputText id="detalleComprasPK_idCompra" value="#{detalleComprasController.selected.detalleComprasPK.idCompra}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditDetalleComprasLabel_detalleComprasPK_idProducto}" for="detalleComprasPK_idProducto" />
+                        <h:outputText id="detalleComprasPK_idProducto" value="#{detalleComprasController.selected.detalleComprasPK.idProducto}" />
+
+                        <p:outputLabel value="#{myBundle.EditDetalleComprasLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{detalleComprasController.selected.cantidad}" title="#{myBundle.EditDetalleComprasTitle_cantidad}"/>
+
+                        <p:outputLabel value="#{myBundle.EditDetalleComprasLabel_precioCompra}" for="precioCompra" />
+                        <p:inputText id="precioCompra" value="#{detalleComprasController.selected.precioCompra}" title="#{myBundle.EditDetalleComprasTitle_precioCompra}"/>
+
+
+                        <h:outputLabel value="#{myBundle.EditDetalleComprasLabel_productos}" for="productos" />
+                        <h:outputText id="productos" value="#{detalleComprasController.selected.productos}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditDetalleComprasLabel_compras}" for="compras" />
+                        <h:outputText id="compras" value="#{detalleComprasController.selected.compras}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleComprasController.save}" value="#{myBundle.Save}" update="display,:DetalleComprasListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleComprasEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('DetalleComprasEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

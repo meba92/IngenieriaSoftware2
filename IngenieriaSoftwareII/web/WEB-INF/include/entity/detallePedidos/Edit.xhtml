@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetallePedidosEditDlg" widgetVar="DetallePedidosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditDetallePedidosTitle}" closeOnEscape="true">
+
+            <h:form id="DetallePedidosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detallePedidosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditDetallePedidosLabel_detallePedidosPK_idPedido}" for="detallePedidosPK_idPedido" />
+                        <h:outputText id="detallePedidosPK_idPedido" value="#{detallePedidosController.selected.detallePedidosPK.idPedido}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditDetallePedidosLabel_detallePedidosPK_idProducto}" for="detallePedidosPK_idProducto" />
+                        <h:outputText id="detallePedidosPK_idProducto" value="#{detallePedidosController.selected.detallePedidosPK.idProducto}" />
+
+                        <p:outputLabel value="#{myBundle.EditDetallePedidosLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{detallePedidosController.selected.cantidad}" title="#{myBundle.EditDetallePedidosTitle_cantidad}"/>
+
+                        <p:outputLabel value="#{myBundle.EditDetallePedidosLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{detallePedidosController.selected.precio}" title="#{myBundle.EditDetallePedidosTitle_precio}"/>
+
+                        <p:outputLabel value="#{myBundle.EditDetallePedidosLabel_descuento}" for="descuento" />
+                        <p:inputText id="descuento" value="#{detallePedidosController.selected.descuento}" title="#{myBundle.EditDetallePedidosTitle_descuento}"/>
+
+
+                        <h:outputLabel value="#{myBundle.EditDetallePedidosLabel_productos}" for="productos" />
+                        <h:outputText id="productos" value="#{detallePedidosController.selected.productos}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditDetallePedidosLabel_pedidos}" for="pedidos" />
+                        <h:outputText id="pedidos" value="#{detallePedidosController.selected.pedidos}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detallePedidosController.save}" value="#{myBundle.Save}" update="display,:DetallePedidosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetallePedidosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('DetallePedidosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

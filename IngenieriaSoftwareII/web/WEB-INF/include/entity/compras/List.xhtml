@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ComprasListForm">
+
+        <p:panel header="#{myBundle.ListComprasTitle}">
+            <p:contextMenu id="ComprasDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ComprasListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ComprasListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ComprasListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ComprasListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ComprasMenuItem_detalleComprasCollection}" icon="ui-icon-search"  action="#{comprasController.navigateDetalleComprasCollection}" disabled="#{empty comprasController.selected.detalleComprasCollection}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.ComprasMenuItem_idProveedor}" icon="ui-icon-search"  actionListener="#{comprasController.prepareIdProveedor}" update=":ClientesViewForm" oncomplete="PF('ClientesViewDialog').show()" disabled="#{empty comprasController.selected.idProveedor}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{comprasController.items}"
+                         lazy="false"
+                         rowKey="#{item.idCompra}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{comprasController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{comprasController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idCompra}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ComprasDataTableContextMenu" listener="#{comprasController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ComprasDataTableContextMenu" listener="#{comprasController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{comprasController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ComprasListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCompra}" filterBy="#{item.idCompra}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComprasTitle_idCompra}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCompra}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComprasTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.montoTotal}" filterBy="#{item.montoTotal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComprasTitle_montoTotal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoTotal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idProveedor.idCliente}" filterBy="#{item.idProveedor.idCliente}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComprasTitle_idProveedor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProveedor.idCliente}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{comprasController.prepareCreate}" update=":ComprasCreateForm" oncomplete="PF('ComprasCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ComprasViewForm" oncomplete="PF('ComprasViewDialog').show()" disabled="#{empty comprasController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ComprasEditForm" oncomplete="PF('ComprasEditDialog').show()" disabled="#{empty comprasController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{comprasController.delete}" update=":growl,datalist" disabled="#{empty comprasController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

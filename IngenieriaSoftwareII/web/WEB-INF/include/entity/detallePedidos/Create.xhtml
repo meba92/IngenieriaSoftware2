@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetallePedidosCreateDlg" widgetVar="DetallePedidosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateDetallePedidosTitle}" closeOnEscape="true">
+
+            <h:form id="DetallePedidosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{detallePedidosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateDetallePedidosLabel_detallePedidosPK_idPedido}" for="detallePedidosPK_idPedido" />
+                        <p:inputText id="detallePedidosPK_idPedido" value="#{detallePedidosController.selected.detallePedidosPK.idPedido}" title="#{myBundle.CreateDetallePedidosTitle_detallePedidosPK_idPedido}" required="true" requiredMessage="#{myBundle.CreateDetallePedidosRequiredMessage_detallePedidosPK_idPedido}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetallePedidosLabel_detallePedidosPK_idProducto}" for="detallePedidosPK_idProducto" />
+                        <p:inputText id="detallePedidosPK_idProducto" value="#{detallePedidosController.selected.detallePedidosPK.idProducto}" title="#{myBundle.CreateDetallePedidosTitle_detallePedidosPK_idProducto}" required="true" requiredMessage="#{myBundle.CreateDetallePedidosRequiredMessage_detallePedidosPK_idProducto}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetallePedidosLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{detallePedidosController.selected.cantidad}" title="#{myBundle.CreateDetallePedidosTitle_cantidad}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetallePedidosLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{detallePedidosController.selected.precio}" title="#{myBundle.CreateDetallePedidosTitle_precio}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetallePedidosLabel_descuento}" for="descuento" />
+                        <p:inputText id="descuento" value="#{detallePedidosController.selected.descuento}" title="#{myBundle.CreateDetallePedidosTitle_descuento}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetallePedidosLabel_productos}" for="productos" />
+                        <p:selectOneMenu id="productos" value="#{detallePedidosController.selected.productos}" required="true" requiredMessage="#{myBundle.CreateDetallePedidosRequiredMessage_productos}" converter="productosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productosController.items}"
+                                           var="productosItem"
+                                           itemValue="#{productosItem}"
+                                           itemLabel="#{productosItem.idProducto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateDetallePedidosLabel_pedidos}" for="pedidos" />
+                        <p:selectOneMenu id="pedidos" value="#{detallePedidosController.selected.pedidos}" required="true" requiredMessage="#{myBundle.CreateDetallePedidosRequiredMessage_pedidos}" converter="pedidosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pedidosController.items}"
+                                           var="pedidosItem"
+                                           itemValue="#{pedidosItem}"
+                                           itemLabel="#{pedidosItem.idPedido.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detallePedidosController.saveNew}" value="#{myBundle.Save}" update="display,:DetallePedidosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetallePedidosCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('DetallePedidosCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

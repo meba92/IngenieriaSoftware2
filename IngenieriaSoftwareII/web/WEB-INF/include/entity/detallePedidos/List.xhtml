@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DetallePedidosListForm">
+
+        <p:panel header="#{myBundle.ListDetallePedidosTitle}">
+            <p:contextMenu id="DetallePedidosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('DetallePedidosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('DetallePedidosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('DetallePedidosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('DetallePedidosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.DetallePedidosMenuItem_productos}" icon="ui-icon-search"  actionListener="#{detallePedidosController.prepareProductos}" update=":ProductosViewForm" oncomplete="PF('ProductosViewDialog').show()" disabled="#{empty detallePedidosController.selected.productos}"/>  
+                <p:menuitem value="#{myBundle.DetallePedidosMenuItem_pedidos}" icon="ui-icon-search"  actionListener="#{detallePedidosController.preparePedidos}" update=":PedidosViewForm" oncomplete="PF('PedidosViewDialog').show()" disabled="#{empty detallePedidosController.selected.pedidos}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{detallePedidosController.items}"
+                         lazy="false"
+                         rowKey="#{item.detallePedidosPK}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{detallePedidosController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{detallePedidosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.detallePedidosPK}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetallePedidosDataTableContextMenu" listener="#{detallePedidosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetallePedidosDataTableContextMenu" listener="#{detallePedidosController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{detallePedidosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DetallePedidosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.detallePedidosPK.idPedido}" filterBy="#{item.detallePedidosPK.idPedido}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetallePedidosTitle_detallePedidosPK_idPedido}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detallePedidosPK.idPedido}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detallePedidosPK.idProducto}" filterBy="#{item.detallePedidosPK.idProducto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetallePedidosTitle_detallePedidosPK_idProducto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detallePedidosPK.idProducto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cantidad}" filterBy="#{item.cantidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetallePedidosTitle_cantidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cantidad}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.precio}" filterBy="#{item.precio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetallePedidosTitle_precio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.precio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descuento}" filterBy="#{item.descuento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetallePedidosTitle_descuento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descuento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.productos.idProducto}" filterBy="#{item.productos.idProducto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetallePedidosTitle_productos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.productos.idProducto}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.pedidos.idPedido}" filterBy="#{item.pedidos.idPedido}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListDetallePedidosTitle_pedidos}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.pedidos.idPedido}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{detallePedidosController.prepareCreate}" update=":DetallePedidosCreateForm" oncomplete="PF('DetallePedidosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":DetallePedidosViewForm" oncomplete="PF('DetallePedidosViewDialog').show()" disabled="#{empty detallePedidosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":DetallePedidosEditForm" oncomplete="PF('DetallePedidosEditDialog').show()" disabled="#{empty detallePedidosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{detallePedidosController.delete}" update=":growl,datalist" disabled="#{empty detallePedidosController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

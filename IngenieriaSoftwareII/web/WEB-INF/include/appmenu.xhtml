@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:submenu label="#{myBundle.Home}" icon="ui-icon-home">
+                    <p:menuitem value="Pagina Inicio" outcome="/index"/>
+                </p:submenu>
+
+                <p:submenu label="#{myBundle.ClientesHeading}..." icon="ui-icon-pencil">
+                    <p:menuitem value="Ver" outcome="/entity/clientes/index" />
+                </p:submenu>
+
+                <p:submenu label="#{myBundle.VendedoresHeading}..." icon="ui-icon-users">
+                    <p:menuitem value="Ver" outcome="/entity/vendedores/index" />
+                </p:submenu>
+                
+                <p:submenu label="#{myBundle.ProductosHeading}..." icon="ui-icon-users">
+                    <p:menuitem value="Ver" outcome="/entity/productos/index" />
+                </p:submenu>
+                
+                <p:submenu label="Ventas" icon="ui-icon-users">
+                    <p:menuitem value="Agregar ventas" outcome="/entity/AgregarVentas" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleVentasCreateDlg" widgetVar="DetalleVentasCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateDetalleVentasTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleVentasCreateForm">
+
+                <h:panelGroup id="display" rendered="#{detalleVentasController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleVentasLabel_detalleVentasPK_idProducto}" for="detalleVentasPK_idProducto" />
+                        <p:inputText id="detalleVentasPK_idProducto" value="#{detalleVentasController.selected.detalleVentasPK.idProducto}" title="#{myBundle.CreateDetalleVentasTitle_detalleVentasPK_idProducto}" required="true" requiredMessage="#{myBundle.CreateDetalleVentasRequiredMessage_detalleVentasPK_idProducto}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleVentasLabel_detalleVentasPK_idVenta}" for="detalleVentasPK_idVenta" />
+                        <p:inputText id="detalleVentasPK_idVenta" value="#{detalleVentasController.selected.detalleVentasPK.idVenta}" title="#{myBundle.CreateDetalleVentasTitle_detalleVentasPK_idVenta}" required="true" requiredMessage="#{myBundle.CreateDetalleVentasRequiredMessage_detalleVentasPK_idVenta}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleVentasLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{detalleVentasController.selected.cantidad}" title="#{myBundle.CreateDetalleVentasTitle_cantidad}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleVentasLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{detalleVentasController.selected.precio}" title="#{myBundle.CreateDetalleVentasTitle_precio}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleVentasLabel_ventas}" for="ventas" />
+                        <p:selectOneMenu id="ventas" value="#{detalleVentasController.selected.ventas}" required="true" requiredMessage="#{myBundle.CreateDetalleVentasRequiredMessage_ventas}" converter="ventasConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ventasController.items}"
+                                           var="ventasItem"
+                                           itemValue="#{ventasItem}"
+                                           itemLabel="#{ventasItem.idVenta.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateDetalleVentasLabel_productos}" for="productos" />
+                        <p:selectOneMenu id="productos" value="#{detalleVentasController.selected.productos}" required="true" requiredMessage="#{myBundle.CreateDetalleVentasRequiredMessage_productos}" converter="productosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productosController.items}"
+                                           var="productosItem"
+                                           itemValue="#{productosItem}"
+                                           itemLabel="#{productosItem.idProducto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleVentasController.saveNew}" value="#{myBundle.Save}" update="display,:DetalleVentasListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleVentasCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('DetalleVentasCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

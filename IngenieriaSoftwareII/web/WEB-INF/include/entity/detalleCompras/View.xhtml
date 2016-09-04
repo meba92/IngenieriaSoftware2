@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleComprasViewDlg" widgetVar="DetalleComprasViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewDetalleComprasTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleComprasViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detalleComprasController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewDetalleComprasLabel_detalleComprasPK_idCompra}"/>
+                        <h:outputText value="#{detalleComprasController.selected.detalleComprasPK.idCompra}" title="#{myBundle.ViewDetalleComprasTitle_detalleComprasPK_idCompra}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleComprasLabel_detalleComprasPK_idProducto}"/>
+                        <h:outputText value="#{detalleComprasController.selected.detalleComprasPK.idProducto}" title="#{myBundle.ViewDetalleComprasTitle_detalleComprasPK_idProducto}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleComprasLabel_cantidad}"/>
+                        <h:outputText value="#{detalleComprasController.selected.cantidad}" title="#{myBundle.ViewDetalleComprasTitle_cantidad}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleComprasLabel_precioCompra}"/>
+                        <h:outputText value="#{detalleComprasController.selected.precioCompra}" title="#{myBundle.ViewDetalleComprasTitle_precioCompra}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleComprasLabel_productos}"/>
+                        <h:outputText value="#{detalleComprasController.selected.productos.idProducto}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleComprasLabel_compras}"/>
+                        <h:outputText value="#{detalleComprasController.selected.compras.idCompra}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('DetalleComprasViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VendedoresCreateDlg" widgetVar="VendedoresCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateVendedoresTitle}" closeOnEscape="true">
+
+            <h:form id="VendedoresCreateForm">
+
+                <h:panelGroup id="display" rendered="#{vendedoresController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel rendered="false" value="#{myBundle.CreateVendedoresLabel_cedula}" for="cedula" />
+                        <p:inputText rendered="false" id="cedula" value="#{vendedoresController.selected.cedula}" title="#{myBundle.CreateVendedoresTitle_cedula}" required="true" requiredMessage="#{myBundle.CreateVendedoresRequiredMessage_cedula}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedoresLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{vendedoresController.selected.nombre}" title="#{myBundle.CreateVendedoresTitle_nombre}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedoresLabel_apellido}" for="apellido" />
+                        <p:inputText id="apellido" value="#{vendedoresController.selected.apellido}" title="#{myBundle.CreateVendedoresTitle_apellido}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedoresLabel_fechaIngreso}" for="fechaIngreso" />
+                        <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy" value="#{vendedoresController.selected.fechaIngreso}" title="#{myBundle.CreateVendedoresTitle_fechaIngreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedoresLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{vendedoresController.selected.fechaNacimiento}" title="#{myBundle.CreateVendedoresTitle_fechaNacimiento}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedoresLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{vendedoresController.selected.telefono}" title="#{myBundle.CreateVendedoresTitle_telefono}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedoresLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{vendedoresController.selected.direccion}" title="#{myBundle.CreateVendedoresTitle_direccion}" size="60" maxlength="60"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedoresLabel_sexo}" for="sexo" />
+                        <p:inputText id="sexo" value="#{vendedoresController.selected.sexo}" title="#{myBundle.CreateVendedoresTitle_sexo}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedoresLabel_idLocalidad}" for="idLocalidad" />
+                        <p:selectOneMenu id="idLocalidad" value="#{vendedoresController.selected.idLocalidad}"  converter="localidadConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{localidadController.items}"
+                                           var="idLocalidadItem"
+                                           itemValue="#{idLocalidadItem}"
+                                           itemLabel="#{idLocalidadItem.idLocalidad.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vendedoresController.saveNew}" value="#{myBundle.Save}" update="display,:VendedoresListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VendedoresCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('VendedoresCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

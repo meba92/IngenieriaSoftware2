@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="VendedoresListForm">
+
+        <p:panel header="#{myBundle.ListVendedoresTitle}">
+            <p:contextMenu id="VendedoresDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('VendedoresListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('VendedoresListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('VendedoresListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('VendedoresListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.VendedoresMenuItem_pedidosCollection}" icon="ui-icon-search"  action="#{vendedoresController.navigatePedidosCollection}" disabled="#{empty vendedoresController.selected.pedidosCollection}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.VendedoresMenuItem_idLocalidad}" icon="ui-icon-search"  actionListener="#{vendedoresController.prepareIdLocalidad}" update=":LocalidadViewForm" oncomplete="PF('LocalidadViewDialog').show()" disabled="#{empty vendedoresController.selected.idLocalidad}"/>  
+                <p:menuitem value="#{myBundle.VendedoresMenuItem_ventasCollection}" icon="ui-icon-search"  action="#{vendedoresController.navigateVentasCollection}" disabled="#{empty vendedoresController.selected.ventasCollection}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.VendedoresMenuItem_usuariosCollection}" icon="ui-icon-search"  action="#{vendedoresController.navigateUsuariosCollection}" disabled="#{empty vendedoresController.selected.usuariosCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{vendedoresController.items}"
+                         lazy="false"
+                         rowKey="#{item.cedula}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{vendedoresController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{vendedoresController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.cedula}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VendedoresDataTableContextMenu" listener="#{vendedoresController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VendedoresDataTableContextMenu" listener="#{vendedoresController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{vendedoresController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('VendedoresListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cedula}" filterBy="#{item.cedula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListVendedoresTitle_cedula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cedula}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListVendedoresTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.apellido}" filterBy="#{item.apellido}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListVendedoresTitle_apellido}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.apellido}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListVendedoresTitle_fechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaNacimiento}" filterBy="#{item.fechaNacimiento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListVendedoresTitle_fechaNacimiento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaNacimiento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.telefono}" filterBy="#{item.telefono}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListVendedoresTitle_telefono}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefono}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.direccion}" filterBy="#{item.direccion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListVendedoresTitle_direccion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.direccion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.sexo}" filterBy="#{item.sexo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListVendedoresTitle_sexo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.sexo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idLocalidad.idLocalidad}" filterBy="#{item.idLocalidad.idLocalidad}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListVendedoresTitle_idLocalidad}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idLocalidad.idLocalidad}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{vendedoresController.prepareCreate}" update=":VendedoresCreateForm" oncomplete="PF('VendedoresCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":VendedoresViewForm" oncomplete="PF('VendedoresViewDialog').show()" disabled="#{empty vendedoresController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":VendedoresEditForm" oncomplete="PF('VendedoresEditDialog').show()" disabled="#{empty vendedoresController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{vendedoresController.delete}" update=":growl,datalist" disabled="#{empty vendedoresController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>
