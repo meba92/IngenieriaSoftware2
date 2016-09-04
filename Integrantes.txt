@@ -1,0 +1,9 @@
+                          Integrantes del Grupo
+-------------------------------------------------------------------------------------
+
+Nombre	Apellido	Cedula		email
+
+Emilia	Baez 		3.429.269	meba92@hotmail.com
+Liz	Barrios		4.553.085	lizbarrios@gmail.com
+Romina  Cañiza		3.532.129	romi.omi@gmail.com
+
